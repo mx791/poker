@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"math/rand/v2"
+	"math/rand"
+	"strings"
 )
 
 var families []string = []string{"Hearth", "Diamonds", "Clubs", "Spades"}
@@ -17,6 +18,24 @@ func (c Card) ToString() string {
 	return fmt.Sprintf("%s of %s", values[c.value], families[c.family])
 }
 
+func MakeCard(name string) Card {
+	value := 0
+	family := 0
+	for i := 0; i < len(values); i++ {
+		if strings.Contains(name, values[i]) {
+			value = i
+			break
+		}
+	}
+	for i := 0; i < len(families); i++ {
+		if strings.Contains(name, families[i]) {
+			family = i
+			break
+		}
+	}
+	return Card{value, family}
+}
+
 type CardGenerator struct {
 	passed map[string]bool
 }
@@ -26,24 +45,32 @@ func MakeCardGenerator() CardGenerator {
 }
 
 func (c1 Card) Equals(c2 Card) bool {
-	return c1.toString() == c2.toString()
+	return c1.ToString() == c2.ToString()
 }
 
 func genCard() Card {
-	return Card{rand.IntN(13), rand.IntN(4)}
+	return Card{rand.Intn(13), rand.Intn(4)}
 }
 
 func (gen *CardGenerator) Next() Card {
 	card := genCard()
-	card, found := gen.passed[card.toString()]
-	for found && card {
+	cardFound, ok := gen.passed[card.ToString()]
+	for cardFound && ok {
 		card = genCard()
-		_, found = gen.passed[card.toString()]
+		cardFound, ok = gen.passed[card.ToString()]
 	}
-	gen.passed[card.toString()] = true
+	gen.passed[card.ToString()] = true
 	return card
 }
 
 func (gen *CardGenerator) Remove(card Card) {
-	gen.passed[card.toString()] = false
+	gen.passed[card.ToString()] = false
+}
+
+func main() {
+	gen := MakeCardGenerator()
+	fmt.Println(gen.Next().ToString())
+	fmt.Println(gen.Next().ToString())
+	fmt.Println(gen.Next().ToString())
+	MakeCard("Queen of Spades")
 }
