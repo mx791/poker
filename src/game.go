@@ -3,6 +3,7 @@ package main
 import (
 	"math/rand"
 	"testing"
+	"fmt"
 )
 
 const (
@@ -118,5 +119,9 @@ func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotV
 func TestRandomGame(t *testing.T) {
 	pA := RandomPlayer{}
 	pB := RandomPlayer{}
-	PlayGame(pA, pB)
+	aReward := 0.0
+	for i:=0; i<150; i++ {
+		aReward += PlayGame(pA, pB)
+	}
+	fmt.Println(aReward)
 }
