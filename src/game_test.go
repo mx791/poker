@@ -52,13 +52,11 @@ func comparePlayers(pA GameBot, pB GameBot) float64 {
 }
 
 func TestGame(t *testing.T) {
-	for i:=0; i<10; i++ {
-		fmt.Println("Nouvelle partie")
-		pA := TalkativeRandomPlayer{}
-		pB := RandomPlayer{}
-		out := PlayGame(pA, pB)
-		fmt.Printf("Issue: %f", out)
-	}
+	fmt.Println("Nouvelle partie")
+	pA := TalkativeRandomPlayer{}
+	pB := RandomPlayer{}
+	out := PlayNGame([]GameBot{pA, pB})
+	fmt.Printf("Issue: %v", out)
 }
 
 func TestRandomGame(t *testing.T) {
