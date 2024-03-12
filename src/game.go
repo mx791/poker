@@ -18,7 +18,6 @@ func PlayGame(playerA GameBot, playerB GameBot) float64 {
   cardA := []Card{gen.Next(), gen.Next()}
   cardB := []Card{gen.Next(), gen.Next()}
   pot := 0.0
-  currentRaise := 0.0
   communCards := make([]Card, 0)
 
   for id, val := range []int{0, 3, 1, 1} {
