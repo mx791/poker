@@ -6,7 +6,7 @@ const (
   ACTION_SLEEP = 3
 )
 
-const GameBot interface {
+type GameBot interface {
   PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int
   PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int
   ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool
