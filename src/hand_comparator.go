@@ -87,6 +87,15 @@ func CompareHands(handA []Card, handB []Card) int {
 	if len(bPairs) == 2 && len(aPairs) < 2 {
 		return -1
 	}
+	if len(aPairs) == 2 && len(bPairs) == 2 {
+		if (aPairs[0] > bPairs[0] && aPairs[0] > bPairs[1]) || (aPairs[1] > bPairs[0] && aPairs[1] > bPairs[1]) {
+			return 1
+		}
+		if (bPairs[0] > aPairs[0] && bPairs[0] > aPairs[1]) || (bPairs[1] > aPairs[0] && bPairs[1] > aPairs[1]) {
+			return -1
+		}
+		return 0
+	}
 
 	// paire
 	for val := 12; val >= 0; val-- {
