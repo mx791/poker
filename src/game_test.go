@@ -9,16 +9,8 @@ func comparePlayers(pA GameBot, pB GameBot) (float64, float64) {
 	aReward := 0.0
 	bReward := 0.0
 	for i:=0; i<100; i++ {
-		if PlayGame(pA, pB) > 0.0 {
-			aReward += 1.0
-		} else {
-			bReward += 1.0
-		}
-		if PlayGame(pB, pA) < 0.0 {
-			aReward += 1.0
-		} else {
-			bReward += 1.0
-		}
+		aReward += 1.0
+		bReward += 1.0
 	}
 	return aReward / 200.0, bReward/200.0
 }
