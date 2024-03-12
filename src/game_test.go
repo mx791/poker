@@ -13,8 +13,8 @@ func (p TalkativeRandomPlayer) PlayFirst(myCards []Card, communCards []Card, tot
   fmt.Printf("Je commence le tour, il y a %d cartes au milieu \n", len(communCards))
   val := rand.Intn(5)
   if val == 0 || val == 1 || val == 2 {
-	fmt.Println("Je check")
-    	return ACTION_CHECK
+	fmt.Println("Je suis")
+    	return ACTION_FOLLOW
   } else if val == 3 {
 	fmt.Println("Je relance")
     	return ACTION_RAISE
