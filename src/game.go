@@ -54,7 +54,7 @@ func PlayNGame(players []GameBot) []float64 {
 			}
 			doFollow := players[playerPosId].ShouldFollow(playerCards[playerPosId], communCards, pot, currentInvestedByPlayer[playerPosId], currentBet)
 			if doFollow {
-				currentInvestedByPlayer[playerPosId] = betValue
+				currentInvestedByPlayer[playerPosId] = currentBet
 			} else {
 				outPlayers[playerPosId] = true
 				activesPlayers -= 1
@@ -108,7 +108,7 @@ type RandomPlayer struct {}
 func (p RandomPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int {
   val := rand.Intn(5)
   if val == 0 || val == 1 || val == 2 {
-    return ACTION_CHECK
+    return ACTION_FOLLOW
   } else if val == 3 {
     return ACTION_RAISE
   }
