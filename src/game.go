@@ -13,7 +13,7 @@ const (
 type GameBot interface {
   PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int
   PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int
-  ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool
+  ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, targetValue float64) bool
 }
 
 func PlayNGame(players []GameBot) []float64 {
@@ -49,10 +49,10 @@ func PlayNGame(players []GameBot) []float64 {
 		}
 		for pId:=0; pId<len(players); pId++ {
 			playerPosId := (id+pId) % len(players)
-			if outPlayers[playerPosId] || currentInvestedByPlayer[playerPosId] == betValue || activesPlayers == 1 {
+			if outPlayers[playerPosId] || currentInvestedByPlayer[playerPosId] == currentBet || activesPlayers == 1 {
 				continue
 			}
-			doFollow := players[playerPosId].ShouldFollow(playerCards[playerPosId], communCards, currentInvestedByPlayer[playerPosId], currentBet)
+			doFollow := players[playerPosId].ShouldFollow(playerCards[playerPosId], communCards, pot, currentInvestedByPlayer[playerPosId], currentBet)
 			if doFollow {
 				currentInvestedByPlayer[playerPosId] = betValue
 			} else {
