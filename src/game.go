@@ -11,8 +11,7 @@ const (
 )
 
 type GameBot interface {
-  PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int
-  PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int
+  Play(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int
   ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, targetValue float64) bool
 }
 
@@ -36,7 +35,7 @@ func PlayNGame(players []GameBot) []float64 {
 			if outPlayers[playerPosId] || activesPlayers == 1 {
 				continue
 			}
-			action := players[playerPosId].PlayNormal(playerCards[playerPosId], communCards, pot, currentBet)
+			action := players[playerPosId].Play(playerCards[playerPosId], communCards, pot, currentBet)
 			if action == ACTION_FOLLOW {
 				currentInvestedByPlayer[playerPosId] += currentBet
 			} else if action == ACTION_RAISE {
@@ -115,16 +114,6 @@ func (p RandomPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValu
   return ACTION_SLEEP
 }
 
-func (p RandomPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
-  val := rand.Intn(5)
-  if val == 0 || val == 1 || val == 2 {
-    return ACTION_FOLLOW
-  } else if val == 3 {
-    return ACTION_RAISE
-  }
-  return ACTION_SLEEP
-}
-
 func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool {
 	return rand.Intn(5) > 2
 }
@@ -136,14 +125,6 @@ func (p ProbabilistPlayer) PlayFirst(myCards []Card, communCards []Card, totalPo
 	proba := EvalGameState(myCards, communCards)
 	if proba > 0.5 {
 		return ACTION_RAISE
-	}
-	return ACTION_SLEEP
-}
-
-func (p ProbabilistPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
-	proba := EvalGameState(myCards, communCards)
-	if proba > 0.5 {
-		return ACTION_FOLLOW
 	}
 	return ACTION_SLEEP
 }
