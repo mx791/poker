@@ -10,22 +10,24 @@ import (
 type TalkativeRandomPlayer struct {}
 
 func (p TalkativeRandomPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
-  val := rand.Intn(5)
-  fmt.Printf("A mon tour, il y a %d cartes au milieu, la mise est à %f \n", len(communCards), betValue)
-  if val == 0 || val == 1 || val == 2 {
-	  fmt.Println("Je suis")
-    return ACTION_FOLLOW
-  } else if val == 3 {
-	  fmt.Println("Je relance")
-    return ACTION_RAISE
-  }
-	fmt.Println("Je me couche")
-  return ACTION_SLEEP
+  	proba := EvalGameState(myCards, communCards)
+	fmt.Printf("Win_proba=%f \n", proba)
+	if proba > 0.7 {
+		fmt.Printf("je relance")
+		return ACTION_RAISE
+	}
+	if proba > 0.5 {
+		fmt.Printf("je suis")
+		return ACTION_FOLLOW
+	}
+	fmt.Printf("Je me couche")
+	return ACTION_SLEEP
 }
 
 func (p TalkativeRandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, targetValue float64) bool {
-	fmt.Printf("On me relance")
-	return rand.Intn(5) > 2
+	proba := EvalGameState(myCards, communCards)
+	fmt.Printf("On me relance \n Win_proba=%f \n", proba)
+	return proba > 0.5
 }
 
 func comparePlayers(pA GameBot, pB GameBot) float64 {
