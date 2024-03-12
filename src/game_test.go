@@ -11,7 +11,7 @@ func comparePlayers(pA GameBot, pB GameBot) float64 {
 		aReward += PlayGame(pA, pB)
 		aReward += -PlayGame(pB, pA)
 	}
-	return aReward / 100.0
+	return aReward / 200.0
 }
 
 func TestRandomGame(t *testing.T) {
@@ -26,7 +26,7 @@ func TestRandomvsproba(t *testing.T) {
 	pB := RandomPlayer{}
 	NUM_SIMS  = 10_000
 	resA := comparePlayers(pA, pB)
-	fmt.Printf("Random vs Random %f", resA)
+	fmt.Printf("Probabilist vs Random %f", resA)
 }
 
 func TestProba(t *testing.T) {
@@ -34,5 +34,5 @@ func TestProba(t *testing.T) {
 	pB := ProbabilistPlayer{}
 	NUM_SIMS  = 10_000
 	resA := comparePlayers(pA, pB)
-	fmt.Printf("Random vs Random %f", resA)
+	fmt.Printf("Probabilist vs Probabilist %f", resA)
 }
