@@ -32,7 +32,7 @@ func PlayGame(playerA GameBot, playerB GameBot) float64 {
     players := []GameBot{playerA, playerB}
     playersCards := [][]Card{cardA, cardB}
     if id % 2 == 1 {
-      players = []GameBot{playerB playerA}
+      players = []GameBot{playerB, playerA}
       playersCards = [][]Card{cardB, cardA}
     }
     firstEngaged := 0.0
