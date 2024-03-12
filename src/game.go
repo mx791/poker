@@ -94,7 +94,7 @@ func PlayNGame(players []GameBot) []float64 {
 	for id, val := range ttInvestedByPlayer {
 		payOff[id] = -val
 		if id == playerWin {
-			payOff[id] = pot
+			payOff[id] = pot - val
 		}
 	}
 	return payOff
