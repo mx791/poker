@@ -67,6 +67,26 @@ func CompareHands(handA []Card, handB []Card) int {
 	}
 
 	// double paire
+	aPairs := make([]int, 0)
+	bPairs := make([]int, 0)
+	for val := 12; val >= 0; val-- {
+		aCount, aOk := aValue[val]
+		bCount, bOk := bValue[val]
+		aPair := aOk && aCount == 2
+		bPair := bOk && bCount == 2
+		if aPair {
+			aPairs = append(aPairs, val)
+		}
+		if bPair {
+			bPairs = append(bPairs, val)
+		}
+	}
+	if len(aPair) == 2 && len(bPairs) < 2 {
+		return 1
+	}
+	if len(bPair) == 2 && len(aPairs) < 2 {
+		return -1
+	}
 
 	// paire
 	for val := 12; val >= 0; val-- {
