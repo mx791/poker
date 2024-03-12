@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
-	"strings"
+	"testing"
 )
 
 const (
@@ -113,5 +112,11 @@ func (p RandomPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotVal
 }
 
 func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool {
-  return rand.Intn(5) > 2
+	return rand.Intn(5) > 2
+}
+
+func TestRandomGame(t *testing.T) {
+	pA := RandomPlayer{}
+	pB := RandomPlayer{}
+	PlayGame(pA, pB)
 }
