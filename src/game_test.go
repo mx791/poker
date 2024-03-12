@@ -9,21 +9,7 @@ import (
 
 type TalkativeRandomPlayer struct {}
 
-func (p TalkativeRandomPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int {
-  fmt.Printf("Je commence le tour, il y a %d cartes au milieu \n", len(communCards))
-  val := rand.Intn(5)
-  if val == 0 || val == 1 || val == 2 {
-	fmt.Println("Je suis")
-    	return ACTION_FOLLOW
-  } else if val == 3 {
-	fmt.Println("Je relance")
-    	return ACTION_RAISE
-  }
-  fmt.Println("Je me couche")
-  return ACTION_SLEEP
-}
-
-func (p TalkativeRandomPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
+func (p TalkativeRandomPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
   val := rand.Intn(5)
   fmt.Printf("A mon tour, il y a %d cartes au milieu, la mise est à %f \n", len(communCards), betValue)
   if val == 0 || val == 1 || val == 2 {
