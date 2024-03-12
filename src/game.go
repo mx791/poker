@@ -1,9 +1,5 @@
 package main
 
-import (
-  "math/rand"
-)
-
 const (
   ACTION_FOLLOW = 1
   ACTION_RAISE = 2
