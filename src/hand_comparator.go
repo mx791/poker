@@ -81,10 +81,10 @@ func CompareHands(handA []Card, handB []Card) int {
 			bPairs = append(bPairs, val)
 		}
 	}
-	if len(aPair) == 2 && len(bPairs) < 2 {
+	if len(aPairs) == 2 && len(bPairs) < 2 {
 		return 1
 	}
-	if len(bPair) == 2 && len(aPairs) < 2 {
+	if len(bPairs) == 2 && len(aPairs) < 2 {
 		return -1
 	}
 
