@@ -10,7 +10,7 @@ import (
 type TalkativeRandomPlayer struct {}
 
 func (p TalkativeRandomPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int {
-  fmt.Printf("Je commence le tour, il y a %i cartes au milieu", len(communCards))
+  fmt.Printf("Je commence le tour, il y a %d cartes au milieu", len(communCards))
   val := rand.Intn(5)
   if val == 0 || val == 1 || val == 2 {
 	fmt.Println("Je check")
@@ -25,7 +25,7 @@ func (p TalkativeRandomPlayer) PlayFirst(myCards []Card, communCards []Card, tot
 
 func (p TalkativeRandomPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
   val := rand.Intn(5)
-  fmt.Printf("A mon tour, il y a %i cartes au milieu, la mise est à %f", len(communCards), betValue)
+  fmt.Printf("A mon tour, il y a %d cartes au milieu, la mise est à %f", len(communCards), betValue)
   if val == 0 || val == 1 || val == 2 {
 	  fmt.Println("Je suis")
     return ACTION_FOLLOW
@@ -38,7 +38,7 @@ func (p TalkativeRandomPlayer) PlayNormal(myCards []Card, communCards []Card, to
 }
 
 func (p TalkativeRandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, targetValue float64) bool {
-	fmt.Println("On me relance")
+	fmt.Printf("On me relance")
 	return rand.Intn(5) > 2
 }
 
