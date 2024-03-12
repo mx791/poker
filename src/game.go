@@ -8,7 +8,6 @@ const (
   ACTION_FOLLOW = 1
   ACTION_RAISE = 2
   ACTION_SLEEP = 3
-  ACTION_CHECK = 4
 )
 
 type GameBot interface {
@@ -17,76 +16,91 @@ type GameBot interface {
   ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool
 }
 
+func PlayNGame(players []GameBot) []float64 {
+	gen := MakeCardGenerator()
+	playerCards := make([][]Card, len(players))
+	ttInvestedByPlayer := make([]float64, len(players))
+	outPlayers := make([]bool, len(players))
+	activesPlayers := len(players)
+	communCards := make([]Card, 0)
+	pot := 0.0
+	playerWin := -1
+	for id, val := range []int{0, 3, 1, 1} {
+		currentBet := 0.0
+		currentInvestedByPlayer := make([]float64, len(players))
+    		for i:=0; i<val; i++ {
+        		communCards = append(communCards, gen.Next())
+		}
+		for pId:=0; pId<len(players); pId++ {
+			playerPosId := (id+pId) % len(players)
+			if outPlayers[playerPosId] || activesPlayers == 1 {
+				continue
+			}
+			action := players[playerPosId].PlayNormal(playerCards[playerPosId], communCards, pot, currentBet)
+			if action == ACTION_FOLLOW {
+				currentInvestedByPlayer[playerPosId] += currentBet
+			} else if action == ACTION_RAISE {
+				currentBet += 1
+				currentInvestedByPlayer[playerPosId] += currentBet
+			} else if action == ACTION_SLEEP {
+				outPlayers[playerPosId] = true
+				activesPlayers -= 1
+			}
+		}
+		for pId:=0; pId<len(players); pId++ {
+			playerPosId := (id+pId) % len(players)
+			if outPlayers[playerPosId] || currentInvestedByPlayer[playerPosId] == betValue || activesPlayers == 1 {
+				continue
+			}
+			doFollow := players[playerPosId].ShouldFollow(playerCards[playerPosId], communCards, currentInvestedByPlayer[playerPosId], currentBet)
+			if doFollow {
+				currentInvestedByPlayer[playerPosId] = betValue
+			} else {
+				outPlayers[playerPosId] = true
+				activesPlayers -= 1
+			}
+		}
+		for i, val := range currentInvestedByPlayer {
+			ttInvestedByPlayer[i] += val
+			pot += val
+		}
+		if activesPlayers == 1 {
+			for pId:=0; pId<len(players); pId++ {
+				if !outPlayers[(id+pId) % len(players)] {
+					playerWin = (id+pId) % len(players)
+				}
+			}
+		}
+    	}
+	if playerWin == -1 {
+		victoryCount := make([]int, len(players))
+		for i:=0; i<len(players)-1; i++ {
+			for e:=i+1; e<len(players); e++ {
+				out :=  CompareHands(append(playerCards[i], communCards...), append(playerCards[e], communCards...))
+				if out >= 0 {
+					victoryCount[i] += 1
+				} else {
+					victoryCount[e] += 1
+				}
+			}
+			if victoryCount[i] == len(players)-1 {
+				playerWin = i
+			}
+ 		}
+	}
+	payOff := make([]float64, len(players))
+	for id, val := ttInvestedByPlayer {
+		payOff[id] = -val
+		if id == playerWin {
+			payOff[id] = pot
+		}
+	}
+	return payOff
+}
+
 func PlayGame(playerA GameBot, playerB GameBot) float64 {
-  
-  gen := MakeCardGenerator()
-  cardA := []Card{gen.Next(), gen.Next()}
-  cardB := []Card{gen.Next(), gen.Next()}
-  pot := 0.0
-  communCards := make([]Card, 0)
-
-  for id, val := range []int{0, 3, 1, 1} {
-    for i:=0; i<val; i++ {
-        communCards = append(communCards, gen.Next())
-    }
-    players := []GameBot{playerA, playerB}
-    playersCards := [][]Card{cardA, cardB}
-    if id % 2 == 1 {
-      players = []GameBot{playerB, playerA}
-      playersCards = [][]Card{cardB, cardA}
-    }
-    firstEngaged := 0.0
-    currentPot := 0.0
-    betValue := 0.0
-    firstAction := players[0].PlayFirst(playersCards[0], communCards, pot)
-    if firstAction == ACTION_FOLLOW {
-      return 0
-    } else if firstAction == ACTION_RAISE {
-      betValue += 1.0
-      firstEngaged = 1.0
-      currentPot += betValue
-    } else if firstAction == ACTION_SLEEP {
-      if id % 2 == 0 {
-        return -pot
-      } else {
-        return pot
-      }
-    }
-    secondAction := players[1].PlayNormal(playersCards[1], communCards, pot, betValue)
-    if secondAction == ACTION_SLEEP {
-      pot += currentPot
-      if id % 2 == 1 {
-        return -pot
-      } else {
-        return pot
-      }
-    } else if secondAction == ACTION_FOLLOW {
-      currentPot += betValue
-    } else if secondAction == ACTION_RAISE {
-      betValue += 1
-      currentPot += betValue
-      if players[0].ShouldFollow(playersCards[0], communCards, pot, firstEngaged, betValue) {
-        currentPot += betValue - firstEngaged
-      } else {
-        pot += currentPot
-        if id % 2 == 0 {
-          return -pot
-        } else {
-          return pot
-        }
-      }
-    }
-    pot += currentPot
-  }
-
-  // endgame
-  winner := CompareHands(append(cardA, communCards...), append(cardB, communCards...))
-  if winner == 0 {
-    return 0.0
-  } else if winner == 1 {
-    return pot
-  }
-  return -pot
+	out := PlayNGame([]GameBot{playerA, playerB})
+	return out[0]
 }
 
 type RandomPlayer struct {}
