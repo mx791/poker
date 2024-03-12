@@ -1,9 +1,16 @@
 package main
 
+import (
+	"fmt"
+	"math/rand"
+	"strings"
+)
+
 const (
   ACTION_FOLLOW = 1
   ACTION_RAISE = 2
   ACTION_SLEEP = 3
+  ACTION_CHECK = 4
 )
 
 type GameBot interface {
@@ -81,4 +88,30 @@ func PlayGame(playerA GameBot, playerB GameBot) float64 {
     return pot
   }
   return -pot
+}
+
+type RandomPlayer struct {}
+
+func (p RandomPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int {
+  val := rand.Intn(5)
+  if val == 0 || val == 1 || val == 2 {
+    return ACTION_CHECK
+  } else if val == 3 {
+    return ACTION_RAISE
+  }
+  return ACTION_SLEEP
+}
+
+func (p RandomPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
+  val := rand.Intn(5)
+  if val == 0 || val == 1 || val == 2 {
+    return ACTION_FOLLOW
+  } else if val == 3 {
+    return ACTION_RAISE
+  }
+  return ACTION_SLEEP
+}
+
+func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool {
+  return rand.Intn(5) > 2
 }
