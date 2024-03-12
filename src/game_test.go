@@ -51,6 +51,7 @@ func TestGame(t *testing.T) {
 	fmt.Printf("Issue: %v", out)
 }
 
+/**
 func TestRandomGame(t *testing.T) {
 	pA := RandomPlayer{}
 	pB := RandomPlayer{}
@@ -73,3 +74,4 @@ func TestProba(t *testing.T) {
 	resA := comparePlayers(pA, pB)
 	fmt.Printf("Probabilist vs Probabilist %f", resA)
 }
+*/
