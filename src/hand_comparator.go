@@ -34,6 +34,8 @@ func CompareHands(handA []Card, handB []Card) int {
 	aColor := colorMap(handA)
 	bColor := colorMap(handB)
 
+	// suite couleur
+	
 	// couleur
 	for c := 0; c < 4; c++ {
 		aCount, aOk := aColor[c]
@@ -49,6 +51,22 @@ func CompareHands(handA []Card, handB []Card) int {
 	}
 
 	// suite
+	for val := 8; val >= 0; val-- {
+		aFollow := true
+		bFollow := true
+		for i:=0; i<5; i++ {
+			_, aOk := aValue[val+i]
+			aFollow = aFollow && aOk
+			_, bOk := bValue[val+i]
+			bFollow = bFollow && bOk
+		}
+		if aFollow && !bFollow {
+			return 1
+		}
+		if bFollow && !aFollow {
+			return -1
+		}
+	}
 
 	// full
 
