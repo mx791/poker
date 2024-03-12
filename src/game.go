@@ -118,16 +118,16 @@ func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotV
 type ProbabilistPlayer struct {}
 
 func (p ProbabilistPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int {
-	p := EvalGameState(myCards, communCards)
-	if p > 0.5 {
+	proba := EvalGameState(myCards, communCards)
+	if proba > 0.5 {
 		return ACTION_RAISE
 	}
 	return ACTION_SLEEP
 }
 
 func (p ProbabilistPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
-	p := EvalGameState(myCards, communCards)
-	if p > 0.5 {
+	proba := EvalGameState(myCards, communCards)
+	if proba > 0.5 {
 		return ACTION_FOLLOW
 	}
 	return ACTION_SLEEP
