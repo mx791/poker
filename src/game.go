@@ -64,6 +64,7 @@ func PlayGame(playerA GameBot, playerB GameBot) float64 {
       currentPot += betValue
     } else if secondAction == ACTION_RAISE {
       betValue += 1
+      currentPot += betValue
       if players[0].ShouldFollow(playersCards[0], communCards, pot, firstEngaged, betValue) {
         currentPot += betValue - firstEngaged
       } else {
