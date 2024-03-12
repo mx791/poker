@@ -104,7 +104,7 @@ func PlayGame(playerA GameBot, playerB GameBot) float64 {
 
 type RandomPlayer struct {}
 
-func (p RandomPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int {
+func (p RandomPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64) int {
   val := rand.Intn(5)
   if val == 0 || val == 1 || val == 2 {
     return ACTION_FOLLOW
@@ -118,13 +118,15 @@ func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotV
 	return rand.Intn(5) > 2
 }
 
-
 type ProbabilistPlayer struct {}
 
-func (p ProbabilistPlayer) PlayFirst(myCards []Card, communCards []Card, totalPotValue float64) int {
+func (p ProbabilistPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64) int {
 	proba := EvalGameState(myCards, communCards)
-	if proba > 0.5 {
+	if proba > 0.7 {
 		return ACTION_RAISE
+	}
+	if proba > 0.5 {
+		return ACTION_FOLLOW
 	}
 	return ACTION_SLEEP
 }
