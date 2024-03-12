@@ -25,8 +25,8 @@ func TestRandomvsproba(t *testing.T) {
 	pA := ProbabilistPlayer{}
 	pB := RandomPlayer{}
 	NUM_SIMS  = 10_000
-	resA, resB := comparePlayers(pA, pB)
-	fmt.Printf("Random vs Random %f - %f", resA, resB)
+	resA := comparePlayers(pA, pB)
+	fmt.Printf("Random vs Random %f", resA)
 }
 
 func TestProba(t *testing.T) {
