@@ -18,6 +18,9 @@ type GameBot interface {
 func PlayNGame(players []GameBot) []float64 {
 	gen := MakeCardGenerator()
 	playerCards := make([][]Card, len(players))
+	for id, _ := range playerCards {
+		playerCards[id] = []Card{gen.Next(), gen.Next()}
+	}
 	ttInvestedByPlayer := make([]float64, len(players))
 	outPlayers := make([]bool, len(players))
 	activesPlayers := len(players)
