@@ -55,7 +55,7 @@ func TestGame(t *testing.T) {
 	pA := TalkativeRandomPlayer{}
 	pB := RandomPlayer{}
 	out := PlayGame(pA, pB)
-	fmt.Println("Issue: %f", out)
+	fmt.Printf("Issue: %f", out)
 }
 
 func TestRandomGame(t *testing.T) {
