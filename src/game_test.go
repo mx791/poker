@@ -11,6 +11,11 @@ type TalkativeRandomPlayer struct {}
 func (p TalkativeRandomPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
   	proba := EvalGameState(myCards, communCards)
 	fmt.Printf("Win_proba=%f \n", proba)
+	fmt.Println(myCards[0].ToString() + ", " + myCards[1].ToString())
+	fmt.Println("Middle cards:")
+	for _, c := range communCards {
+		fmt.Println(c.ToString())
+	}
 	if proba > 0.7 {
 		fmt.Printf("je relance")
 		return ACTION_RAISE
