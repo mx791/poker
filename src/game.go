@@ -2,8 +2,6 @@ package main
 
 import (
 	"math/rand"
-	"testing"
-	"fmt"
 )
 
 const (
@@ -114,14 +112,4 @@ func (p RandomPlayer) PlayNormal(myCards []Card, communCards []Card, totalPotVal
 
 func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool {
 	return rand.Intn(5) > 2
-}
-
-func TestRandomGame(t *testing.T) {
-	pA := RandomPlayer{}
-	pB := RandomPlayer{}
-	aReward := 0.0
-	for i:=0; i<150; i++ {
-		aReward += PlayGame(pA, pB)
-	}
-	fmt.Println(aReward)
 }
