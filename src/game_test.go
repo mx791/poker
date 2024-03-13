@@ -2,10 +2,9 @@ package main
 
 import (
 	"testing"
-	"fmt"
 )
 
-
+/*
 type TalkativeRandomPlayer struct {}
 
 func (p TalkativeRandomPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int {
@@ -42,13 +41,12 @@ func comparePlayers(pA GameBot, pB GameBot) float64 {
 	}
 	return aReward / 200.0
 }
+*/
 
 func TestGame(t *testing.T) {
-	fmt.Println("Nouvelle partie")
-	pA := TalkativeRandomPlayer{}
+	pA := RandomPlayer{}
 	pB := RandomPlayer{}
-	out := PlayNGame([]GameBot{pA, pB})
-	fmt.Printf("Issue: %v", out)
+	PlayNGame([]GameBot{pA, pB})
 }
 
 /**

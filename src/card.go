@@ -66,11 +66,3 @@ func (gen *CardGenerator) Next() Card {
 func (gen *CardGenerator) Remove(card Card) {
 	gen.passed[card.ToString()] = false
 }
-
-func main() {
-	gen := MakeCardGenerator()
-	fmt.Println(gen.Next().ToString())
-	fmt.Println(gen.Next().ToString())
-	fmt.Println(gen.Next().ToString())
-	MakeCard("Queen of Spades")
-}
