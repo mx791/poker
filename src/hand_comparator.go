@@ -86,8 +86,8 @@ func CompareHands(handA []Card, handB []Card) int {
 		for val2 := 12; val2 >= 0; val2-- {
 			aCount, aOk = aValue[val]
 			bCount, bOk = bValue[val]
-			aPair = aOk && aCount == 2
-			bPair = bOk && bCount == 2
+			aPair := aOk && aCount == 2
+			bPair := bOk && bCount == 2
 			if aPair && !bPair {
 				return 1
 			}
