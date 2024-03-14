@@ -69,6 +69,33 @@ func CompareHands(handA []Card, handB []Card) int {
 	}
 
 	// full
+	for val := 12; val >= 0; val-- {
+		aCount, aOk := aValue[val]
+		bCount, bOk := bValue[val]
+		aBrelan := aOk && aCount == 3
+		bBrelan := bOk && bCount == 3
+		if aPair && !bPair {
+			return 1
+		}
+		if bPair && !aPair {
+			return -1
+		}
+		if !aPair || !bPair {
+			continue
+		}
+		for val2 := 12; val2 >= 0; val2-- {
+			aCount, aOk = aValue[val]
+			bCount, bOk = bValue[val]
+			aPair = aOk && aCount == 2
+			bPair = bOk && bCount == 2
+			if aPair && !bPair {
+				return 1
+			}
+			if bPair && !aPair {
+				return -1
+			}
+		}
+	}
 
 	// brelan
 	for val := 12; val >= 0; val-- {
