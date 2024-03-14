@@ -56,12 +56,6 @@ func CompareHands(handA []Card, handB []Card) int {
 		bCount, bOk := bValue[val]
 		aBrelan := aOk && aCount == 3
 		bBrelan := bOk && bCount == 3
-		if aBrelan && !bBrelan {
-			return 1
-		}
-		if bBrelan && !aBrelan {
-			return -1
-		}
 		if !aBrelan || !bBrelan {
 			continue
 		}
