@@ -97,20 +97,6 @@ func CompareHands(handA []Card, handB []Card) int {
 		}
 	}
 
-	// brelan
-	for val := 12; val >= 0; val-- {
-		aCount, aOk := aValue[val]
-		bCount, bOk := bValue[val]
-		aPair := aOk && aCount == 3
-		bPair := bOk && bCount == 3
-		if aPair && !bPair {
-			return 1
-		}
-		if bPair && !aPair {
-			return -1
-		}
-	}
-
 	// double paire
 	aPairs := make([]int, 0)
 	bPairs := make([]int, 0)
