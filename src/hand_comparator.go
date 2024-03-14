@@ -60,6 +60,9 @@ func CompareHands(handA []Card, handB []Card) int {
 			continue
 		}
 		for val2 := 12; val2 >= 0; val2-- {
+			if val == val2 {
+				continue
+			}
 			aCount, aOk = aValue[val]
 			bCount, bOk = bValue[val]
 			aPair := aOk && aCount == 2
