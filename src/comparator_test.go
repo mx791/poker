@@ -42,6 +42,25 @@ func TestBrelan(t *testing.T) {
 	}
 }
 
+func TestFull(t *testing.T) {
+	pairA := []Card{MakeCard("Queen of Spades"), MakeCard("Queen of Hearth"), MakeCard("Queen of Diamonds"), MakeCard("7 of Diamonds"), MakeCard("2 of Diamonds")}
+	pairB := []Card{MakeCard("8 of Spades"), MakeCard("8 of Hearth"), MakeCard("8 of Diamonds"), MakeCard("5 of Diamonds"), MakeCard("5 of Diamonds")}
+
+	if CompareHands(pairA, pairB) != -1 {
+		t.Fatalf("error full vs brelan")
+	}
+
+	pairA = []Card{MakeCard("Queen of Spades"), MakeCard("Queen of Hearth"), MakeCard("7 of Diamonds"), MakeCard("7 of Diamonds"), MakeCard("2 of Diamonds")}
+	if CompareHands(pairA, pairB) != -1 {
+		t.Fatalf("error full vs double pair")
+	}
+
+	pairA = []Card{MakeCard("Queen of Spades"), MakeCard("Queen of Hearth"), MakeCard("Queen of Diamonds"), MakeCard("7 of Diamonds"), MakeCard("7 of Diamonds")}
+	if CompareHands(pairA, pairB) != 1 {
+		t.Fatalf("Error with full values")
+	}
+}
+
 func TestHighestCard(t *testing.T) {
 	pairA := []Card{MakeCard("Queen of Spades"), MakeCard("5 of Hearth")}
 	pairB := []Card{MakeCard("5 of Spades"), MakeCard("8 of Hearth")}
