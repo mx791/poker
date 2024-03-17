@@ -36,6 +36,43 @@ func CompareHands(handA []Card, handB []Card) int {
 
 	// suite couleur
 
+	// carré
+	for val := 12; val >= 0; val-- {
+		aCount, aOk := aValue[val]
+		bCount, bOk := bValue[val]
+		aPair := aOk && aCount == 4
+		bPair := bOk && bCount == 4
+		if aPair && !bPair {
+			return 1
+		}
+		if bPair && !aPair {
+			return -1
+		}
+	}
+
+	// full
+	for val := 12; val >= 0; val-- {
+		aCount, aOk := aValue[val]
+		bCount, bOk := bValue[val]
+		aBrelan := aOk && aCount == 3
+		bBrelan := bOk && bCount == 3
+		for val2 := 12; val2 >= 0; val2-- {
+			if val == val2 {
+				continue
+			}
+			aCount, aOk = aValue[val2]
+			bCount, bOk = bValue[val2]
+			aPair := aOk && aCount == 2
+			bPair := bOk && bCount == 2
+			if (aBrelan && aPair) && !(bPair && bBrelan) {
+				return 1
+			}
+			if !(aBrelan && aPair) && (bPair && bBrelan) {
+				return -1
+			}
+		}
+	}
+
 	// couleur
 	for c := 0; c < 4; c++ {
 		aCount, aOk := aColor[c]
@@ -68,18 +105,16 @@ func CompareHands(handA []Card, handB []Card) int {
 		}
 	}
 
-	// full
-
 	// brelan
 	for val := 12; val >= 0; val-- {
 		aCount, aOk := aValue[val]
 		bCount, bOk := bValue[val]
-		aPair := aOk && aCount == 3
-		bPair := bOk && bCount == 3
-		if aPair && !bPair {
+		aBrelan := aOk && aCount == 3
+		bBrelan := bOk && bCount == 3
+		if aBrelan && !bBrelan {
 			return 1
 		}
-		if bPair && !aPair {
+		if bBrelan && !aBrelan {
 			return -1
 		}
 	}
