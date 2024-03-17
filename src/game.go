@@ -11,11 +11,6 @@ const (
 	ACTION_SLEEP  = 3
 )
 
-type GameBot interface {
-	Play(myCards []Card, communCards []Card, totalPotValue float64, betValue float64) int
-	ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, targetValue float64) bool
-}
-
 func PlayNGame(players []GameBot) []float64 {
 	seed := rand.Intn(len(players))
 	gen := MakeCardGenerator()
@@ -116,40 +111,6 @@ func PlayNGame(players []GameBot) []float64 {
 func PlayGame(playerA GameBot, playerB GameBot) float64 {
 	out := PlayNGame([]GameBot{playerA, playerB})
 	return out[0]
-}
-
-type RandomPlayer struct{}
-
-func (p RandomPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64, potValue float64) int {
-	val := rand.Intn(5)
-	if val == 0 || val == 1 || val == 2 {
-		return ACTION_FOLLOW
-	} else if val == 3 {
-		return ACTION_RAISE
-	}
-	return ACTION_SLEEP
-}
-
-func (p RandomPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, taregtValue float64) bool {
-	return rand.Intn(5) > 2
-}
-
-type ProbabilistPlayer struct{}
-
-func (p ProbabilistPlayer) Play(myCards []Card, communCards []Card, totalPotValue float64, potValue float64) int {
-	proba := EvalGameState(myCards, communCards)
-	if proba > 0.7 {
-		return ACTION_RAISE
-	}
-	if proba > 0.5 {
-		return ACTION_FOLLOW
-	}
-	return ACTION_SLEEP
-}
-
-func (p ProbabilistPlayer) ShouldFollow(myCards []Card, communCards []Card, totalPotValue float64, engagedValue float64, targetValue float64) bool {
-	proba := EvalGameState(myCards, communCards)
-	return (proba >= 0.5)
 }
 
 func PrintGame(myCards []Card, communCards []Card) {
